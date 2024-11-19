@@ -1,9 +1,14 @@
 import React from 'react';
-import { Badge, Button, Card, CardBody, CardImg, CardText, ListGroup, Stack } from 'react-bootstrap';
+import Badge from 'react-bootstrap/Badge';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Stack from 'react-bootstrap/Stack';
 import { useParams } from 'react-router-dom';
+import { CapturedPokemon } from '../../components';
 import { useGlobalContext } from '../../context/context';
 import { useLocalStorage } from '../../hooks';
-import { SavedPokemon } from '../Podekex/types';
+import { SavedPokemon } from '../../types';
 import { PokemonStats } from './components';
 import { StyledCardHeader, StyledCardTitle, StyledListGroupItem } from './PokemonCard.styled';
 
@@ -40,21 +45,15 @@ export function PokemonCard() {
                 {pokemon.id} - {pokemon.name}
               </StyledCardTitle>
             </StyledCardHeader>
-            <CardImg
+            <Card.Img
               variant="top"
               className="card-image"
               src={pokemon.sprites.other.dream_world.front_default}
               alt={pokemon.name}
             />
-            <CardBody>
-              <CardText>Types: {pokemon.types.map(({ type }) => type.name).join()}</CardText>
-              <CardText>
-                <strong>
-                  {captured
-                    ? `Captured on - ${new Date(+storedValue[pokemonName!].addedOn).toLocaleString()}`
-                    : '*Not yet captured'}
-                </strong>
-              </CardText>
+            <Card.Body>
+              <Card.Text>Types: {pokemon.types.map(({ type }) => type.name).join()}</Card.Text>
+              <CapturedPokemon name={pokemon.name} />
               <Stack gap={2}>
                 <ListGroup>
                   <StyledListGroupItem>
@@ -75,7 +74,7 @@ export function PokemonCard() {
                   </Button>
                 )}
               </Stack>
-            </CardBody>
+            </Card.Body>
           </Card>
         </div>
       )}

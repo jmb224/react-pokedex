@@ -1,38 +1,20 @@
 import React from 'react';
-import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardImg,
-  CardTitle,
-  Col,
-  Container,
-  FormControl,
-  FormGroup,
-  FormLabel,
-  Row
-} from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
-
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import { useNavigate } from 'react-router-dom';
+import { CapturedPokemon } from '../../components';
 import { SearchBar } from '../../components/SearchBar';
 import { useGlobalContext } from '../../context/context';
-import { StyledListGroupItem } from '../PokemonCard/PokemonCard.styled';
-import { Pokemon } from '../../types';
-
-export interface SavedPokemon {
-  [key: string]: {
-    addedOn: string;
-  };
-}
 
 export function Home() {
   const navigate = useNavigate();
   const { allPokemonsData } = useGlobalContext();
 
-  function handleOnCardClick(e: React.MouseEvent, pokemonName: string) {
-    e.preventDefault();
+  function handleOnCardClick(event: React.MouseEvent, pokemonName: string) {
+    event.preventDefault();
 
     navigate(`pokemon/${pokemonName}`);
   }
@@ -44,22 +26,19 @@ export function Home() {
         {allPokemonsData.map((pokemon) => (
           <Col md={6} lg={3} sm={6} xs={12} className="mb-4" key={pokemon.name}>
             <Card>
-              <CardImg
-                className="card-image"
+              <Card.Img
                 variant="top"
+                className="card-image"
                 src={pokemon.sprites.other.dream_world.front_default}
                 alt={pokemon.name}
               />
-              <CardBody>
-                <CardTitle>{pokemon.name} </CardTitle>
-                {/* <CardText>
-                  Caught by me:{" "}
-                  <strong>{myPokemonsLS[pokemon.name] ? "Yes" : "No"} </strong>
-                </CardText> */}
+              <Card.Body>
+                <Card.Title>{pokemon.name} </Card.Title>
+                <CapturedPokemon name={pokemon.name} />
                 <Button variant="primary" onClick={(e) => handleOnCardClick(e, pokemon.name)}>
                   Details
                 </Button>
-              </CardBody>
+              </Card.Body>
             </Card>
           </Col>
         ))}

@@ -1,2 +1,3 @@
-export { SearchBar } from './SearchBar';
-export { Navigation } from './Navigation';
+export * from './CapturePokemon';
+export * from './Navigation';
+export * from './SearchBar';

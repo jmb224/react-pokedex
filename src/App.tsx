@@ -152,7 +152,7 @@ export type GlobalState = {
   allPokemonsData: Pokemon[];
   pokemon: Pokemon;
   nextPage: string;
-  searchResult: [{ id: string; name: string }];
+  searchResult: [Pick<Pokemon, 'id' | 'name'>];
   isLoadingData: boolean;
   pokemonDb: [{ name: string; url: string }];
   getPokemonByName: (name: string) => void;

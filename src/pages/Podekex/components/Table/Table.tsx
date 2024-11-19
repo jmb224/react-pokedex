@@ -1,5 +1,6 @@
-import { Form, Table as TableLib } from "react-bootstrap";
-import { RowData, SortConfig } from "../../Pokedex";
+import { Form, Table as TableLib } from 'react-bootstrap';
+import { RowData } from '../../Pokedex';
+import { Arrow, SortConfig } from '../../types';
 
 type TableProps = {
   isAllSelected: boolean;
@@ -10,39 +11,28 @@ type TableProps = {
   handleSort: (key: keyof RowData) => void;
 };
 
-enum Arrow {
-  Up = "🔼",
-  Down = "🔽",
-}
-
 export function Table({
   data,
   sortConfig,
   isAllSelected,
   handleSort,
   handleCheckboxChange,
-  handleSelectAllChange,
+  handleSelectAllChange
 }: TableProps) {
   return (
     <TableLib striped bordered hover>
       <thead>
         <tr>
           <th>
-            <Form.Check
-              type="checkbox"
-              checked={isAllSelected}
-              onChange={handleSelectAllChange}
-            />
+            <Form.Check type="checkbox" checked={isAllSelected} onChange={handleSelectAllChange} />
           </th>
-          <th onClick={() => handleSort("name")} style={{ cursor: "pointer" }}>
+          <th onClick={() => handleSort('name')} style={{ cursor: 'pointer' }}>
             Name
-            {sortConfig?.key === "name" &&
-              (sortConfig.direction === "asc" ? Arrow.Up : Arrow.Down)}
+            {sortConfig?.key === 'name' && (sortConfig.direction === 'asc' ? Arrow.Up : Arrow.Down)}
           </th>
-          <th onClick={() => handleSort("date")} style={{ cursor: "pointer" }}>
+          <th onClick={() => handleSort('date')} style={{ cursor: 'pointer' }}>
             Date
-            {sortConfig?.key === "date" &&
-              (sortConfig.direction === "asc" ? Arrow.Up : Arrow.Down)}
+            {sortConfig?.key === 'date' && (sortConfig.direction === 'asc' ? Arrow.Up : Arrow.Down)}
           </th>
         </tr>
       </thead>

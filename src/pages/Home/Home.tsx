@@ -5,8 +5,7 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { useNavigate } from 'react-router-dom';
-import { CapturedPokemon } from '../../components';
-import { SearchBar } from '../../components/SearchBar';
+import { CapturedPokemon, SearchBar } from '../../components';
 import { useGlobalContext } from '../../context/context';
 
 export function Home() {

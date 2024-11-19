@@ -1,5 +1,5 @@
 export type Pokemon = {
-  id: string;
+  id: number;
   name: string;
   sprites: {
     front_default: string;

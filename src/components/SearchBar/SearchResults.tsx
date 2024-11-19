@@ -11,11 +11,12 @@ const StyledPokemonName = styled.span`
   background-color: none;
   display: block;
   padding: 0.5rem;
-  border-radius: 8px;
+  border-radius: 0.5rem;
   transition: all 0.3s ease;
   font-size: 1rem;
   color: #333;
   text-transform: capitalize;
+  font-weight: 500;
 
   &:hover {
     color: #7263f3;

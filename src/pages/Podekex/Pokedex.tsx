@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Container } from 'react-bootstrap';
-import { Table, Toolbar } from './components';
-import { SortConfig, SortDirection } from './types';
+import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from '../../hooks';
 import { Pokemon, SavedPokemon } from '../../types';
+import { Table, Toolbar } from './components';
+import { SortConfig, SortDirection } from './types';
 import { transformDataFromLS } from './utils';
-import { useNavigate } from 'react-router-dom';
 
 export type RowData = Pick<Pokemon, 'id' | 'name'> & {
   date: string;

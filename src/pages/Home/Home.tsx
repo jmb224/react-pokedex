@@ -7,6 +7,7 @@ import Row from 'react-bootstrap/Row';
 import { useNavigate } from 'react-router-dom';
 import { CapturedPokemon, SearchBar } from '../../components';
 import { useGlobalContext } from '../../context/context';
+import { PokemonImage } from '../PokemonCard/components';
 
 export function Home() {
   const navigate = useNavigate();
@@ -25,12 +26,7 @@ export function Home() {
         {allPokemonsData.map((pokemon) => (
           <Col md={6} lg={3} sm={6} xs={12} className="mb-4" key={pokemon.name}>
             <Card>
-              <Card.Img
-                variant="top"
-                className="card-image"
-                src={pokemon.sprites.other.dream_world.front_default}
-                alt={pokemon.name}
-              />
+              <PokemonImage pokemon={pokemon} />
               <Card.Body>
                 <Card.Title>{pokemon.name} </Card.Title>
                 <CapturedPokemon name={pokemon.name} />

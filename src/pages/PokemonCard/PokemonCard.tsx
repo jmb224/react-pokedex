@@ -9,7 +9,7 @@ import { CapturedPokemon } from '../../components';
 import { useGlobalContext } from '../../context/context';
 import { useLocalStorage } from '../../hooks';
 import { SavedPokemon } from '../../types';
-import { PokemonStats } from './components';
+import { PokemonImage, PokemonStats } from './components';
 import { StyledCardHeader, StyledCardTitle, StyledListGroupItem } from './PokemonCard.styled';
 
 export function PokemonCard() {
@@ -45,12 +45,7 @@ export function PokemonCard() {
                 {pokemon.id} - {pokemon.name}
               </StyledCardTitle>
             </StyledCardHeader>
-            <Card.Img
-              variant="top"
-              className="card-image"
-              src={pokemon.sprites.other.dream_world.front_default}
-              alt={pokemon.name}
-            />
+            <PokemonImage pokemon={pokemon} />
             <Card.Body>
               <Card.Text>Types: {pokemon.types.map(({ type }) => type.name).join()}</Card.Text>
               <CapturedPokemon name={pokemon.name} />

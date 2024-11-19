@@ -5,6 +5,7 @@ import { SortConfig, SortDirection } from './types';
 import { useLocalStorage } from '../../hooks';
 import { Pokemon, SavedPokemon } from '../../types';
 import { transformDataFromLS } from './utils';
+import { useNavigate } from 'react-router-dom';
 
 export type RowData = Pick<Pokemon, 'id' | 'name'> & {
   date: string;
@@ -12,6 +13,7 @@ export type RowData = Pick<Pokemon, 'id' | 'name'> & {
 };
 
 export function Pokedex() {
+  const navigate = useNavigate();
   const [storedValue] = useLocalStorage<SavedPokemon>('mypokemon', {});
   const [data, setData] = useState<RowData[]>(transformDataFromLS(storedValue));
   const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
@@ -58,14 +60,15 @@ export function Pokedex() {
   const handleViewDetails = () => {
     const selectedRow = data.find((row) => row.isSelected);
 
-    if (selectedRow) {
-    }
+    if (!selectedRow) return;
+
+    navigate(selectedRow.name);
   };
 
   const selectedCount = data.filter((row) => row.isSelected).length;
 
   return (
-    <Container className="mt-5">
+    <Container className="mt-2">
       <Toolbar
         selectedCount={selectedCount}
         handleDelete={handleDelete}

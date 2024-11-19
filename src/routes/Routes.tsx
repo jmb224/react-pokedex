@@ -6,6 +6,7 @@ export function ApplicationRoutes() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/mypokedex" element={<Pokedex />} />
+      <Route path="/mypokedex/:pokemonName" element={<PokemonCard />} />
       <Route path="/pokemon/:pokemonName" element={<PokemonCard />} />
     </Routes>
   );

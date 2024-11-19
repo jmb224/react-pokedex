@@ -19,7 +19,9 @@ export function PokemonCard() {
   const [storedValue, addOrUpdateEntry, removeEntry] = useLocalStorage<SavedPokemon>('mypokemon', {});
 
   function handleOnButtonClick() {
-    addOrUpdateEntry(pokemonName!, { addedOn: Date.now().toString() });
+    const { id, name, height, types } = pokemon;
+
+    addOrUpdateEntry(pokemonName!, { id, name, height, types, addedOn: Date.now().toString() });
     setCaptured(true);
   }
 

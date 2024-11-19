@@ -14,7 +14,7 @@ export type RowData = Pick<Pokemon, 'id' | 'name'> & {
 
 export function Pokedex() {
   const navigate = useNavigate();
-  const [storedValue] = useLocalStorage<SavedPokemon>('mypokemon', {});
+  const [storedValue, , removeEntry] = useLocalStorage<SavedPokemon>('mypokemon', {});
   const [data, setData] = useState<RowData[]>(transformDataFromLS(storedValue));
   const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
   const [sortConfig, setSortConfig] = useState<SortConfig | null>(null);
@@ -53,7 +53,18 @@ export function Pokedex() {
   }
 
   const handleDelete = () => {
+    // setData((prevData) =>
+    //   prevData.filter((row) => {
+    //     if (row.isSelected) {
+    //       removeEntry(row.name);
+    //     }
+    //     return !row.isSelected;
+    //   })
+    // );
     setData((prevData) => prevData.filter((row) => !row.isSelected));
+
+    // data.forEach(({ isSelected, name }) => isSelected && removeEntry(name));
+
     setIsAllSelected(false);
   };
 

@@ -1,11 +1,12 @@
-import { Route, Routes } from "react-router-dom";
-import { Home, PokemonCard } from "../pages";
+import { Route, Routes } from 'react-router-dom';
+import { Home, Pokedex, PokemonCard } from '../pages';
 
 export function ApplicationRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Home />}></Route>
-      <Route path="/pokemon/:pokemonName" element={<PokemonCard />}></Route>
+      <Route path="/" element={<Home />} />
+      <Route path="/mypokedex" element={<Pokedex />} />
+      <Route path="/pokemon/:pokemonName" element={<PokemonCard />} />
     </Routes>
   );
 }

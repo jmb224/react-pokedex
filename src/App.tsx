@@ -1,12 +1,12 @@
-import { BrowserRouter } from "react-router-dom";
-import "./App.css";
-import { GlobalContext } from "./context/context";
-import { ApplicationRoutes } from "./routes/Routes";
-import React from "react";
-import axios from "axios";
-import { apiURL } from "./api";
-import debounce from "debounce";
-import { truncate } from "fs";
+import axios from 'axios';
+import debounce from 'debounce';
+import React from 'react';
+import { apiURL } from './api';
+import { Navigation } from './components';
+import { GlobalContext } from './context/context';
+import { ApplicationRoutes } from './routes/Routes';
+import { BrowserRouter } from 'react-router-dom';
+import { Pokemon } from './types';
 
 enum ActionType {
   Loading,
@@ -16,7 +16,7 @@ enum ActionType {
   GetPokemonData,
   Search,
   NextPage,
-  AddToMyPokedex,
+  AddToMyPokedex
 }
 
 type Action = {
@@ -66,7 +66,6 @@ function reducerFn(state: GlobalState, action: Action): GlobalState {
 export function App() {
   const [state, dispatch] = React.useReducer(reducerFn, initialState);
   const [allPokemonData, setAllPokemonData] = React.useState<Pokemon[]>([]);
-  // const [pokemonData, setPokemonData] = React.useState<PokemonData[]>([]);
 
   async function getAllPokemon() {
     dispatch({ type: ActionType.Loading });
@@ -105,7 +104,7 @@ export function App() {
   function addToMyPokedex(pokemonName: string, date: number) {
     dispatch({
       type: ActionType.AddToMyPokedex,
-      payload: { name: pokemonName, dateCaptured: date },
+      payload: { name: pokemonName, dateCaptured: date }
     });
 
     console.log(state.pokedex);
@@ -115,9 +114,7 @@ export function App() {
     (search: string) => {
       dispatch({ type: ActionType.Loading });
 
-      const res = state.pokemonDb?.filter((pokemon) =>
-        pokemon.name.includes(search)
-      );
+      const res = state.pokemonDb?.filter((pokemon) => pokemon.name.includes(search));
 
       dispatch({ type: ActionType.Search, payload: res });
 
@@ -140,9 +137,10 @@ export function App() {
           allPokemonsData: allPokemonData,
           getPokemonByName,
           addToMyPokedex,
-          realTimeSearch,
+          realTimeSearch
         }}
       >
+        <Navigation />
         <ApplicationRoutes />
       </GlobalContext.Provider>
     </BrowserRouter>
@@ -166,34 +164,4 @@ export type GlobalState = {
 type AllPokemon = {
   name: string;
   url: string;
-};
-
-export type Pokemon = {
-  id: string;
-  name: string;
-  sprites: {
-    front_default: string;
-    other: {
-      dream_world: { front_default: string };
-      ["official-artwork"]: {
-        front_default: string;
-      };
-    };
-  };
-  types: [
-    {
-      type: { name: string };
-    }
-  ];
-  weight: number;
-  height: number;
-  stats: [
-    {
-      base_stat: number;
-      effort: number;
-      stat: {
-        name: string;
-      };
-    }
-  ];
 };

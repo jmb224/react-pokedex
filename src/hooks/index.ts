@@ -1,8 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
-import { getPokemon, getPokemonByName, getPokemons } from "../api";
-import React from "react";
+import { useQuery } from '@tanstack/react-query';
+import { getPokemon, getPokemonByName, getPokemons } from '../api';
+import React from 'react';
 
-export const POKEMON_API_URL = "https://pokeapi.co/api/v2/pokemon";
+export const POKEMON_API_URL = 'https://pokeapi.co/api/v2/pokemon';
 
 interface Pokemon {
   name: string;
@@ -32,9 +32,9 @@ interface Pokemon {
 
 export function useGetPokemonList(url: string) {
   const { data, isFetching, isError } = useQuery({
-    queryKey: ["PokemonList", url],
+    queryKey: ['PokemonList', url],
     queryFn: () => getPokemons(url),
-    select: (data) => data.data.results,
+    select: (data) => data.data.results
   });
 
   return { data, isFetching, isError };
@@ -42,9 +42,9 @@ export function useGetPokemonList(url: string) {
 
 export function useGetPokemonByName(name: string) {
   const { data, isFetching, isError } = useQuery({
-    queryKey: ["PokemonByName", name],
+    queryKey: ['PokemonByName', name],
     queryFn: () => getPokemonByName(name),
-    select: (data) => data.data,
+    select: (data) => data.data
   });
 
   return { data, isFetching, isError };
@@ -52,47 +52,49 @@ export function useGetPokemonByName(name: string) {
 
 export function useGetPokemon(url: string, name: string) {
   const { data, isFetching, isError } = useQuery({
-    queryKey: ["PokemonItem", name],
+    queryKey: ['PokemonItem', name],
     queryFn: () => getPokemon(url),
-    select: (data) => data.data,
+    select: (data) => data.data
   });
 
   return { data, isFetching, isError };
 }
 
-export function useLocalStorage(key: string) {
-  const [myPokemons, setMyPokemons] = React.useState<
-    Record<string, { capturedDate: number }>
-  >({});
+// export function useLocalStorage(key: string) {
+//   const [myPokemons, setMyPokemons] = React.useState<
+//     Record<string, { capturedDate: number }>
+//   >({});
 
-  function setItem(value: string, capturedDate: number) {
-    const savedItems = getItem();
+//   function setItem(value: string, capturedDate: number) {
+//     const savedItems = getItem();
 
-    savedItems[value] = { capturedDate };
+//     savedItems[value] = { capturedDate };
 
-    window.localStorage.setItem(key, JSON.stringify(savedItems));
-  }
+//     window.localStorage.setItem(key, JSON.stringify(savedItems));
+//   }
 
-  function getItem() {
-    const item = window.localStorage.getItem(key);
-    return item ? JSON.parse(item) : {};
-  }
+//   function getItem() {
+//     const item = window.localStorage.getItem(key);
+//     return item ? JSON.parse(item) : {};
+//   }
 
-  function removeItem(name: string) {
-    const savedItems = getItem();
+//   function removeItem(name: string) {
+//     const savedItems = getItem();
 
-    delete savedItems[name];
+//     delete savedItems[name];
 
-    window.localStorage.setItem(key, JSON.stringify(savedItems));
-  }
+//     window.localStorage.setItem(key, JSON.stringify(savedItems));
+//   }
 
-  React.useEffect(() => {
-    setMyPokemons(getItem());
-  }, [removeItem]);
+//   React.useEffect(() => {
+//     setMyPokemons(getItem());
+//   }, [removeItem]);
 
-  return { setItem, getItem, removeItem, myPokemonsLS: getItem() };
-}
+//   return { setItem, getItem, removeItem, myPokemonsLS: getItem() };
+// }
 
 async function getAllPokemons(url: string) {
   const data = await getPokemons(url);
 }
+
+export { useLocalStorage } from './useLocalStorage';

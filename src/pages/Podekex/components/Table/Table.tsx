@@ -30,6 +30,14 @@ export function Table({
             Name
             {sortConfig?.key === 'name' && (sortConfig.direction === 'asc' ? Arrow.Up : Arrow.Down)}
           </th>
+          <th onClick={() => handleSort('height')} style={{ cursor: 'pointer' }}>
+            Height
+            {sortConfig?.key === 'height' && (sortConfig.direction === 'asc' ? Arrow.Up : Arrow.Down)}
+          </th>
+          <th onClick={() => handleSort('types')} style={{ cursor: 'pointer' }}>
+            Types
+            {sortConfig?.key === 'types' && (sortConfig.direction === 'asc' ? Arrow.Up : Arrow.Down)}
+          </th>
           <th onClick={() => handleSort('date')} style={{ cursor: 'pointer' }}>
             Date
             {sortConfig?.key === 'date' && (sortConfig.direction === 'asc' ? Arrow.Up : Arrow.Down)}
@@ -47,6 +55,8 @@ export function Table({
               />
             </td>
             <td>{row.name}</td>
+            <td>{row.height}</td>
+            <td>{row.types}</td>
             <td>{row.date}</td>
           </tr>
         ))}

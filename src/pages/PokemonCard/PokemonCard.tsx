@@ -11,6 +11,7 @@ import { useLocalStorage } from '../../hooks';
 import { SavedPokemon } from '../../types';
 import { PokemonImage, PokemonStats } from './components';
 import { StyledCardHeader, StyledCardTitle, StyledListGroupItem } from './PokemonCard.styled';
+import { joinTypes } from '../Podekex/utils';
 
 export function PokemonCard() {
   const { pokemonName } = useParams<{ pokemonName: string }>();
@@ -20,8 +21,9 @@ export function PokemonCard() {
 
   function handleOnButtonClick() {
     const { id, name, height, types } = pokemon;
+    const allTypes = joinTypes(types);
 
-    addOrUpdateEntry(pokemonName!, { id, name, height, types, addedOn: Date.now().toString() });
+    addOrUpdateEntry(name, { id, height, types: allTypes, addedOn: Date.now().toString() });
     setCaptured(true);
   }
 
@@ -49,7 +51,7 @@ export function PokemonCard() {
             </StyledCardHeader>
             <PokemonImage pokemon={pokemon} />
             <Card.Body>
-              <Card.Text>Types: {pokemon.types.map(({ type }) => type.name).join()}</Card.Text>
+              <Card.Text>Types: {joinTypes(pokemon.types)}</Card.Text>
               <CapturedPokemon name={pokemon.name} />
               <Stack gap={2}>
                 <ListGroup>

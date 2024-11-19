@@ -30,6 +30,7 @@ export type Pokemon = {
 
 export interface SavedPokemon {
   [key: string]: {
+    types: string;
     addedOn: string;
-  } & Pick<Pokemon, 'id' | 'name' | 'height' | 'types'>;
+  } & Pick<Pokemon, 'id' | 'height'>;
 }

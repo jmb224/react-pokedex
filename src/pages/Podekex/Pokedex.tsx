@@ -7,7 +7,8 @@ import { Table, Toolbar } from './components';
 import { SortConfig, SortDirection } from './types';
 import { transformDataFromLS } from './utils';
 
-export type RowData = Pick<Pokemon, 'id' | 'name'> & {
+export type RowData = Pick<Pokemon, 'id' | 'name' | 'height'> & {
+  types: string;
   date: string;
   isSelected: boolean;
 };
@@ -53,14 +54,13 @@ export function Pokedex() {
   }
 
   const handleDelete = () => {
-    // setData((prevData) =>
-    //   prevData.filter((row) => {
-    //     if (row.isSelected) {
-    //       removeEntry(row.name);
-    //     }
-    //     return !row.isSelected;
-    //   })
-    // );
+    setData((prevData) =>
+      prevData.filter((row) => {
+        row.isSelected && removeEntry(row.name);
+
+        return !row.isSelected;
+      })
+    );
     setData((prevData) => prevData.filter((row) => !row.isSelected));
 
     // data.forEach(({ isSelected, name }) => isSelected && removeEntry(name));

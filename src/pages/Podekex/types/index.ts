@@ -1,3 +1,4 @@
+import { SavedPokemon } from '../../../types';
 import { RowData } from '../Pokedex';
 
 export enum SortDirection {
@@ -11,6 +12,6 @@ export enum Arrow {
 }
 
 export type SortConfig = {
-  key: keyof RowData;
+  key: keyof SavedPokemon;
   direction: SortDirection;
 };

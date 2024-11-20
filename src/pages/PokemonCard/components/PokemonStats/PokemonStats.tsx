@@ -1,8 +1,8 @@
 import { Badge } from 'react-bootstrap';
 import { StyledListGroupItem } from '../../PokemonCard.styled';
-import { Pokemon } from '../../../../types';
+import { Stats } from '../../../../types';
 
-export function PokemonStats({ stats }: Pick<Pokemon, 'stats'>) {
+export function PokemonStats({ stats }: { stats: Stats[] }) {
   return (
     <>
       {stats.map(({ stat, base_stat }) => (

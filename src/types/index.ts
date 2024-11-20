@@ -7,9 +7,6 @@ export type Pokemon = {
     front_default: string;
     other: {
       dream_world: { front_default: string };
-      ['official-artwork']: {
-        front_default: string;
-      };
     };
   };
   types: [
@@ -19,17 +16,16 @@ export type Pokemon = {
   ];
   weight: number;
   height: number;
-  stats: [
-    {
-      base_stat: number;
-      effort: number;
-      stat: {
-        name: string;
-      };
-    }
-  ];
+  stats: Stats[];
 };
 
+export type Stats = {
+  base_stat: number;
+  effort: number;
+  stat: {
+    name: string;
+  };
+};
 export interface SavedPokemon {
   [key: string]: {
     types: string;

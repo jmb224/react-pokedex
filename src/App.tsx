@@ -2,7 +2,7 @@ import axios from 'axios';
 import debounce from 'debounce';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { apiURL, fetchAllPokemon, fetchPokemonByName } from './api';
+import { apiURL, fetchAllPokemon, fetchAllPokemonFromDB, fetchPokemonByName } from './api';
 import { Navigation } from './components';
 import { GlobalContext } from './context';
 import { ApplicationRoutes } from './routes';
@@ -40,9 +40,9 @@ export function App() {
   async function getAllPokemonFromDB() {
     dispatch({ type: ActionType.Loading });
 
-    const { data } = await axios.get(`${apiURL}?limit=100000&offset=0`);
+    const allPokemonFromDB = await fetchAllPokemonFromDB();
 
-    dispatch({ type: ActionType.GetAllPokemonFromDb, payload: data.results });
+    dispatch({ type: ActionType.GetAllPokemonFromDb, payload: allPokemonFromDB });
   }
 
   const realTimeSearch = debounce(

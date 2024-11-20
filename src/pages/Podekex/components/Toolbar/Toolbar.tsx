@@ -1,4 +1,6 @@
-import { ButtonGroup, Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 
 export function Toolbar({
   handleDelete,
@@ -14,13 +16,13 @@ export function Toolbar({
   handleViewDetails: () => void;
 }) {
   return (
-    <div className="d-flex justify-content-between align-items-center mb-3">
-      <ButtonGroup>
+    <ButtonToolbar aria-label="Toolbar with button groups" className="justify-content-between mb-3">
+      <ButtonGroup aria-label="export">
         <Button variant="success" onClick={handleExport} disabled={disableExport}>
           Export pokemon data
         </Button>
       </ButtonGroup>
-      <ButtonGroup>
+      <ButtonGroup aria-label="view and delete">
         <Button variant="primary" onClick={handleViewDetails} disabled={selectedCount !== 1}>
           View pokemon details
         </Button>
@@ -28,6 +30,6 @@ export function Toolbar({
           Delete pokemon
         </Button>
       </ButtonGroup>
-    </div>
+    </ButtonToolbar>
   );
 }

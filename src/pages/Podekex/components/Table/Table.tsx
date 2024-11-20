@@ -27,7 +27,7 @@ export function Table({
   const getArrowType = () => (sortConfig?.direction === SortDirection.Asc ? Arrow.Up : Arrow.Down);
 
   return (
-    <TableLib striped bordered hover>
+    <TableLib striped bordered hover aria-label="pokedex">
       <thead>
         <tr>
           <th>

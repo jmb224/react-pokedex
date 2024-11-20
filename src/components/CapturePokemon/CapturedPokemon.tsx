@@ -8,7 +8,6 @@ export function CapturedPokemon({ name }: CapturedPokemonProps) {
   const [storedValue] = useLocalStorage<SavedPokemon>('mypokemon', {});
   const capturedPokemon = storedValue[name];
 
-  console.log({ storedValue });
   return (
     <CardText>
       <strong>

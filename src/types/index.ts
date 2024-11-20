@@ -1,3 +1,5 @@
+import { DebouncedFunction } from 'debounce';
+
 export type Pokemon = {
   id: number;
   name: string;
@@ -34,3 +36,15 @@ export interface SavedPokemon {
     addedOn: string;
   } & Pick<Pokemon, 'id' | 'height'>;
 }
+
+export type GlobalState = {
+  allPokemons: [];
+  allPokemonsData: Pokemon[];
+  pokemon: Pokemon;
+  nextPage: string;
+  searchResult: [Pick<Pokemon, 'id' | 'name'>];
+  isLoadingData: boolean;
+  pokemonDb: [{ name: string; url: string }];
+  getPokemonByName: (name: string) => void;
+  realTimeSearch: DebouncedFunction<(search: string) => void>;
+};

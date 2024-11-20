@@ -6,54 +6,10 @@ import { apiURL, fetchAllPokemon, fetchPokemonByName } from './api';
 import { Navigation } from './components';
 import { GlobalContext } from './context';
 import { ApplicationRoutes } from './routes';
-import { Pokemon } from './types';
-
-enum ActionType {
-  Loading,
-  GetPokemon,
-  GetAllPokemon,
-  GetAllPokemonFromDb,
-  GetPokemonData,
-  Search
-}
-
-type Action = {
-  type: ActionType;
-  payload?: any;
-};
+import { GlobalState, Pokemon } from './types';
+import { ActionType, reducerFn } from './hooks';
 
 const initialState: GlobalState = Object.create({});
-
-function reducerFn(state: GlobalState, action: Action): GlobalState {
-  switch (action.type) {
-    case ActionType.Loading: {
-      return { ...state, isLoadingData: true };
-    }
-
-    case ActionType.GetPokemonData: {
-      return { ...state, allPokemons: action.payload, isLoadingData: false };
-    }
-
-    case ActionType.GetPokemon: {
-      return { ...state, pokemon: action.payload, isLoadingData: false };
-    }
-
-    case ActionType.GetAllPokemonFromDb: {
-      console.log({ payload: action.payload });
-
-      return { ...state, pokemonDb: action.payload, isLoadingData: false };
-    }
-
-    case ActionType.Search: {
-      return { ...state, searchResult: action.payload, isLoadingData: false };
-    }
-
-    default:
-      break;
-  }
-
-  return state;
-}
 
 export function App() {
   const [state, dispatch] = React.useReducer(reducerFn, initialState);
@@ -101,6 +57,11 @@ export function App() {
     { immediate: true }
   );
 
+  const contextData = React.useMemo(
+    () => ({ ...state, allPokemonsData: allPokemonData, getPokemonByName, realTimeSearch }),
+    [allPokemonData, realTimeSearch, state]
+  );
+
   React.useEffect(() => {
     getAllPokemon();
     getAllPokemonFromDB();
@@ -108,29 +69,10 @@ export function App() {
 
   return (
     <BrowserRouter>
-      <GlobalContext.Provider
-        value={{
-          ...state,
-          allPokemonsData: allPokemonData,
-          getPokemonByName,
-          realTimeSearch
-        }}
-      >
+      <GlobalContext.Provider value={contextData}>
         <Navigation />
         <ApplicationRoutes />
       </GlobalContext.Provider>
     </BrowserRouter>
   );
 }
-
-export type GlobalState = {
-  allPokemons: [];
-  allPokemonsData: Pokemon[];
-  pokemon: Pokemon;
-  nextPage: string;
-  searchResult: [Pick<Pokemon, 'id' | 'name'>];
-  isLoadingData: boolean;
-  pokemonDb: [{ name: string; url: string }];
-  getPokemonByName: (name: string) => void;
-  realTimeSearch: debounce.DebouncedFunction<(search: string) => void>;
-};

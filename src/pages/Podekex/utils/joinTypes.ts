@@ -1,5 +1,5 @@
 import { Pokemon } from '../../../types';
 
-export function joinTypes(types: Pokemon['types']) {
+export function joinPokemonTypes(types: Pokemon['types']) {
   return types.map(({ type }) => type.name).join(', ');
 }

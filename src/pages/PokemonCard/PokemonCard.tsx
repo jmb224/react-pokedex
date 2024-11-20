@@ -8,7 +8,7 @@ import { useParams } from 'react-router-dom';
 import { CapturedPokemon } from '../../components';
 import { useLocalStorage, useGlobalContext } from '../../hooks';
 import { SavedPokemon } from '../../types';
-import { joinTypes } from '../Podekex/utils';
+import { joinPokemonTypes } from '../Podekex/utils';
 import { PokemonImage, PokemonStats } from './components';
 import { StyledCardHeader, StyledListGroupItem } from './PokemonCard.styled';
 
@@ -20,7 +20,7 @@ export function PokemonCard() {
 
   function handleOnButtonClick() {
     const { id, name, height, types } = pokemon;
-    const allTypes = joinTypes(types);
+    const allTypes = joinPokemonTypes(types);
 
     addOrUpdateEntry(name, { id, height, types: allTypes, addedOn: Date.now().toString() });
     setCaptured(true);
@@ -42,7 +42,7 @@ export function PokemonCard() {
     <>
       {!isLoadingData && pokemon && (
         <div>
-          <Card style={{ width: '20rem', margin: 'auto' }}>
+          <Card className="mt-2" style={{ width: '20rem', margin: 'auto' }}>
             <StyledCardHeader>
               <Card.Title>
                 {pokemon.id} - {pokemon.name}
@@ -50,7 +50,7 @@ export function PokemonCard() {
             </StyledCardHeader>
             <PokemonImage pokemon={pokemon} />
             <Card.Body>
-              <Card.Text>Types: {joinTypes(pokemon.types)}</Card.Text>
+              <Card.Text>Types: {joinPokemonTypes(pokemon.types)}</Card.Text>
               <CapturedPokemon name={pokemon.name} />
               <Stack gap={2}>
                 <ListGroup>

@@ -69,9 +69,7 @@ export function App() {
 
   return (
     <BrowserRouter>
-      <GlobalContext.Provider
-        value={{ ...state, allPokemonsData: allPokemonData, getPokemonByName, realTimeSearch }}
-      >
+      <GlobalContext.Provider value={contextData}>
         <Navigation />
         <ApplicationRoutes />
       </GlobalContext.Provider>

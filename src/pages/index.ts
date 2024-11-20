@@ -1,3 +1,4 @@
+export * from './Analytics';
 export * from './Home';
-export { Pokedex } from './Podekex';
-export { PokemonCard } from './PokemonCard';
+export * from './Podekex';
+export * from './PokemonCard';

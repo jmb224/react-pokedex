@@ -53,7 +53,7 @@ export function Pokedex() {
     setData(sortedData);
   }
 
-  const handleDelete = () => {
+  function handleDelete() {
     setData((prevData) =>
       prevData.filter((row) => {
         row.isSelected && removeEntry(row.name);
@@ -61,20 +61,18 @@ export function Pokedex() {
         return !row.isSelected;
       })
     );
+
     setData((prevData) => prevData.filter((row) => !row.isSelected));
-
-    // data.forEach(({ isSelected, name }) => isSelected && removeEntry(name));
-
     setIsAllSelected(false);
-  };
+  }
 
-  const handleViewDetails = () => {
+  function handleViewDetails() {
     const selectedRow = data.find((row) => row.isSelected);
 
     if (!selectedRow) return;
 
     navigate(selectedRow.name);
-  };
+  }
 
   const selectedCount = data.filter((row) => row.isSelected).length;
 

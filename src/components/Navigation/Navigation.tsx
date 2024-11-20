@@ -35,11 +35,7 @@ export function Navigation() {
             My Pokedex
           </NavLink>
           <NavLink href="analytics">Analytics</NavLink>
-          <NavLink href="settings">Settings</NavLink>
         </Nav>
-        <Form>
-          <FormControl type="text" placeholder="Search Pokémon" className="mr-sm-2" />
-        </Form>
       </NavbarCollapse>
     </Navbar>
   );

@@ -1,18 +1,18 @@
 import Card from 'react-bootstrap/Card';
 import ListGroupItem from 'react-bootstrap/ListGroupItem';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-export const StyledCardTitle = styled(Card.Title)`
+const capitalize = css`
   text-transform: capitalize;
 `;
 
 export const StyledCardHeader = styled(Card.Header)`
-  text-transform: capitalize;
+  ${capitalize}
   font-weight: 700;
 `;
 
 export const StyledListGroupItem = styled(ListGroupItem)`
   display: flex;
   justify-content: space-between;
-  text-transform: capitalize;
+  ${capitalize}
 `;

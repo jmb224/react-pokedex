@@ -1,9 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
+export * from './api';
 
-export const apiURL = "https://pokeapi.co/api/v2/pokemon";
+export const apiURL = 'https://pokeapi.co/api/v2/pokemon';
 
 export const request = axios.create({
-  headers: { "Content-Type": "application/json" },
+  headers: { 'Content-Type': 'application/json' }
 });
 
 // export function getPokemons(): Promise<{ results: { name: string; url: string } }[]> {
@@ -28,7 +29,7 @@ export type PokemonItem = {
   sprites: {
     front_default: string;
     other: {
-      ["official-artwork"]: {
+      ['official-artwork']: {
         front_default: string;
       };
     };

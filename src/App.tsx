@@ -1,11 +1,11 @@
 import axios from 'axios';
 import debounce from 'debounce';
 import React from 'react';
-import { apiURL } from './api';
-import { Navigation } from './components';
-import { GlobalContext } from './context/context';
-import { ApplicationRoutes } from './routes/Routes';
 import { BrowserRouter } from 'react-router-dom';
+import { apiURL, fetchAllPokemon, fetchPokemonByName } from './api';
+import { Navigation } from './components';
+import { GlobalContext } from './context';
+import { ApplicationRoutes } from './routes';
 import { Pokemon } from './types';
 
 enum ActionType {
@@ -14,9 +14,7 @@ enum ActionType {
   GetAllPokemon,
   GetAllPokemonFromDb,
   GetPokemonData,
-  Search,
-  NextPage,
-  AddToMyPokedex
+  Search
 }
 
 type Action = {
@@ -37,8 +35,6 @@ function reducerFn(state: GlobalState, action: Action): GlobalState {
     }
 
     case ActionType.GetPokemon: {
-      console.log({ payload: action.payload });
-
       return { ...state, pokemon: action.payload, isLoadingData: false };
     }
 
@@ -50,10 +46,6 @@ function reducerFn(state: GlobalState, action: Action): GlobalState {
 
     case ActionType.Search: {
       return { ...state, searchResult: action.payload, isLoadingData: false };
-    }
-
-    case ActionType.AddToMyPokedex: {
-      return { ...state, pokedex: action.payload, isLoadingData: false };
     }
 
     default:
@@ -70,27 +62,23 @@ export function App() {
   async function getAllPokemon() {
     dispatch({ type: ActionType.Loading });
 
-    const { data } = await axios.get(`${apiURL}?limit=20`);
+    const allPokemon: [{ id: string; url: string }] = await fetchAllPokemon();
 
-    dispatch({ type: ActionType.GetAllPokemon, payload: data.results });
+    dispatch({ type: ActionType.GetAllPokemon, payload: allPokemon });
 
-    const pokemonData = [];
+    const detailedPokemonData = await Promise.all(
+      allPokemon.map(({ url }) => axios.get(url).then((res) => res.data))
+    );
 
-    for (const pokemon of data.results) {
-      const { data } = await axios.get(pokemon.url);
-
-      pokemonData.push(data);
-    }
-
-    setAllPokemonData(pokemonData);
+    setAllPokemonData(detailedPokemonData);
   }
 
   async function getPokemonByName(name: string) {
     dispatch({ type: ActionType.Loading });
 
-    const { data } = await axios.get(`${apiURL}/${name}`);
+    const pokemon = await fetchPokemonByName(name);
 
-    dispatch({ type: ActionType.GetPokemon, payload: data });
+    dispatch({ type: ActionType.GetPokemon, payload: pokemon });
   }
 
   async function getAllPokemonFromDB() {
@@ -101,24 +89,13 @@ export function App() {
     dispatch({ type: ActionType.GetAllPokemonFromDb, payload: data.results });
   }
 
-  function addToMyPokedex(pokemonName: string, date: number) {
-    dispatch({
-      type: ActionType.AddToMyPokedex,
-      payload: { name: pokemonName, dateCaptured: date }
-    });
-
-    console.log(state.pokedex);
-  }
-
   const realTimeSearch = debounce(
     (search: string) => {
       dispatch({ type: ActionType.Loading });
 
-      const res = state.pokemonDb?.filter((pokemon) => pokemon.name.includes(search));
+      const results = state.pokemonDb?.filter((pokemon) => pokemon.name.includes(search.toLowerCase()));
 
-      dispatch({ type: ActionType.Search, payload: res });
-
-      console.log(res);
+      dispatch({ type: ActionType.Search, payload: results });
     },
     400,
     { immediate: true }
@@ -136,7 +113,6 @@ export function App() {
           ...state,
           allPokemonsData: allPokemonData,
           getPokemonByName,
-          addToMyPokedex,
           realTimeSearch
         }}
       >
@@ -157,11 +133,4 @@ export type GlobalState = {
   pokemonDb: [{ name: string; url: string }];
   getPokemonByName: (name: string) => void;
   realTimeSearch: debounce.DebouncedFunction<(search: string) => void>;
-  pokedex: [{ name: string; dateCaptured: number }];
-  addToMyPokedex: (pokemonName: string, date: number) => void;
-};
-
-type AllPokemon = {
-  name: string;
-  url: string;
 };

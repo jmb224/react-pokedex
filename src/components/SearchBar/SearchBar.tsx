@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
-import { useGlobalContext } from '../../context/context';
 import { SearchResults } from './SearchResults';
+import { useGlobalContext } from '../../hooks';
 
 export function SearchBar() {
   const [searchInput, setSearchInput] = React.useState('');

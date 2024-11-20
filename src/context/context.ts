@@ -1,8 +1,4 @@
-import React from "react";
-import { GlobalState } from "../App";
+import React from 'react';
+import { GlobalState } from '../App';
 
-export const GlobalContext = React.createContext<GlobalState>(
-  Object.create({})
-);
-
-export const useGlobalContext = () => React.useContext(GlobalContext);
+export const GlobalContext = React.createContext<GlobalState>(Object.create({}));

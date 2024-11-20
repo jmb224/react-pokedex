@@ -6,12 +6,11 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Stack from 'react-bootstrap/Stack';
 import { useParams } from 'react-router-dom';
 import { CapturedPokemon } from '../../components';
-import { useGlobalContext } from '../../context/context';
-import { useLocalStorage } from '../../hooks';
+import { useLocalStorage, useGlobalContext } from '../../hooks';
 import { SavedPokemon } from '../../types';
-import { PokemonImage, PokemonStats } from './components';
-import { StyledCardHeader, StyledCardTitle, StyledListGroupItem } from './PokemonCard.styled';
 import { joinTypes } from '../Podekex/utils';
+import { PokemonImage, PokemonStats } from './components';
+import { StyledCardHeader, StyledListGroupItem } from './PokemonCard.styled';
 
 export function PokemonCard() {
   const { pokemonName } = useParams<{ pokemonName: string }>();
@@ -28,7 +27,7 @@ export function PokemonCard() {
   }
 
   function handleOnDeleteClick() {
-    removeEntry(pokemonName!);
+    removeEntry(pokemon.name);
     setCaptured(false);
   }
 
@@ -45,9 +44,9 @@ export function PokemonCard() {
         <div>
           <Card style={{ width: '20rem', margin: 'auto' }}>
             <StyledCardHeader>
-              <StyledCardTitle>
+              <Card.Title>
                 {pokemon.id} - {pokemon.name}
-              </StyledCardTitle>
+              </Card.Title>
             </StyledCardHeader>
             <PokemonImage pokemon={pokemon} />
             <Card.Body>

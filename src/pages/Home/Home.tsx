@@ -6,8 +6,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { useNavigate } from 'react-router-dom';
 import { CapturedPokemon, SearchBar } from '../../components';
-import { useGlobalContext } from '../../context/context';
 import { PokemonImage } from '../PokemonCard/components';
+import { useGlobalContext } from '../../hooks';
 
 export function Home() {
   const navigate = useNavigate();

@@ -1,5 +1,4 @@
 import { SavedPokemon } from '../../../types';
-import { RowData } from '../Pokedex';
 
 export enum SortDirection {
   Asc = 'asc',

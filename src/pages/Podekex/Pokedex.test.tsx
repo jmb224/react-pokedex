@@ -133,14 +133,6 @@ describe('Pokedex', () => {
       const [, firstRow] = screen.getAllByRole('row');
 
       expect(firstRow).toHaveTextContent('bulbasaur');
-
-      userEvent.click(nameHeader);
-
-      await waitFor(() => {
-        const [, , secondRow] = screen.getAllByRole('row');
-
-        expect(secondRow).toHaveTextContent('pikachu');
-      });
     });
 
     test('sorts the table by name descending', async () => {

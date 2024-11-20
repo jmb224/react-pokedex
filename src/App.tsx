@@ -70,7 +70,6 @@ export function App() {
   return (
     <BrowserRouter>
       <GlobalContext.Provider value={contextData}>
-        <h1>Welcome to Pokemon challenge</h1>
         <Navigation />
         <ApplicationRoutes />
       </GlobalContext.Provider>

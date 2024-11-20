@@ -22,8 +22,9 @@ export function Home() {
   }
 
   return (
-    <Container fluid className="mt-5">
-      <Row>
+    <Container fluid>
+      <h1 style={{ textAlign: 'center' }}>Welcome to Pokemon challenge</h1>
+      <Row className="mt-5">
         <SearchBar />
         {allPokemonsData.map((pokemon) => (
           <Col md={6} lg={3} sm={6} xs={12} className="mb-4" key={pokemon.name}>

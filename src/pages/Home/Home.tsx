@@ -7,11 +7,13 @@ import Row from 'react-bootstrap/Row';
 import { useNavigate } from 'react-router-dom';
 import { CapturedPokemon, SearchBar } from '../../components';
 import { PokemonImage } from '../PokemonCard/components';
-import { useGlobalContext } from '../../hooks';
+import { useGlobalContext, useLocalStorage } from '../../hooks';
+import { SavedPokemon } from '../../types';
 
 export function Home() {
   const navigate = useNavigate();
   const { allPokemonsData } = useGlobalContext();
+  const [storedValue] = useLocalStorage<SavedPokemon>('mypokemon', {});
 
   function handleOnCardClick(event: React.MouseEvent, pokemonName: string) {
     event.preventDefault();
@@ -29,7 +31,7 @@ export function Home() {
               <PokemonImage pokemon={pokemon} />
               <Card.Body>
                 <Card.Title>{pokemon.name} </Card.Title>
-                <CapturedPokemon name={pokemon.name} />
+                <CapturedPokemon name={pokemon.name} captured={Boolean(storedValue[pokemon.name])} />
                 <Button variant="primary" onClick={(e) => handleOnCardClick(e, pokemon.name)}>
                   Details
                 </Button>

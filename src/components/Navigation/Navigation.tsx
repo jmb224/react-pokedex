@@ -1,13 +1,5 @@
-import {
-  Form,
-  FormControl,
-  Nav,
-  Navbar,
-  NavbarBrand,
-  NavbarCollapse,
-  NavbarToggle,
-  NavLink
-} from 'react-bootstrap';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 import { useNavigate } from 'react-router-dom';
 
 export function Navigation() {
@@ -25,18 +17,18 @@ export function Navigation() {
 
   return (
     <Navbar bg="dark" variant="dark" expand="lg">
-      <NavbarBrand href="/" onClick={handleOnLinkClick}>
+      <Navbar.Brand href="/" onClick={handleOnLinkClick}>
         Pokémon Tracker
-      </NavbarBrand>
-      <NavbarToggle aria-controls="basic-navbar-nav" />
-      <NavbarCollapse id="basic-navbar-nav">
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          <NavLink href="mypokedex" onClick={handleOnLinkClick}>
+          <Nav.Link href="mypokedex" onClick={handleOnLinkClick}>
             My Pokedex
-          </NavLink>
-          <NavLink href="analytics">Analytics</NavLink>
+          </Nav.Link>
+          <Nav.Link href="analytics">Analytics</Nav.Link>
         </Nav>
-      </NavbarCollapse>
+      </Navbar.Collapse>
     </Navbar>
   );
 }

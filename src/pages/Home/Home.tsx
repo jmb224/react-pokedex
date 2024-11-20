@@ -31,7 +31,10 @@ export function Home() {
               <PokemonImage pokemon={pokemon} />
               <Card.Body>
                 <Card.Title>{pokemon.name} </Card.Title>
-                <CapturedPokemon name={pokemon.name} captured={Boolean(storedValue[pokemon.name])} />
+                <CapturedPokemon
+                  captured={Boolean(storedValue[pokemon.name])}
+                  capturedDate={storedValue[pokemon.name]?.addedOn}
+                />
                 <Button variant="primary" onClick={(e) => handleOnCardClick(e, pokemon.name)}>
                   Details
                 </Button>

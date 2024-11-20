@@ -1,20 +1,12 @@
 import CardText from 'react-bootstrap/CardText';
-import { useLocalStorage } from '../../hooks';
-import { SavedPokemon } from '../../types';
-import React from 'react';
 
-type CapturedPokemonProps = { name: string; captured: boolean };
+type CapturedPokemonProps = { captured: boolean; capturedDate: string };
 
-export function CapturedPokemon({ name, captured }: CapturedPokemonProps) {
-  const [storedValue] = useLocalStorage<SavedPokemon>('mypokemon', {});
-  const capturedPokemon = storedValue[name];
-
+export function CapturedPokemon({ captured, capturedDate }: CapturedPokemonProps) {
   return (
     <CardText>
       <strong>
-        {captured
-          ? `Captured on - ${new Date(+capturedPokemon.addedOn).toLocaleString()}`
-          : '*Not yet captured'}
+        {captured ? `Captured on - ${new Date(+capturedDate).toLocaleString()}` : '*Not yet captured'}
       </strong>
     </CardText>
   );

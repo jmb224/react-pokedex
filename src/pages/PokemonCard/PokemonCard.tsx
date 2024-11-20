@@ -51,7 +51,7 @@ export function PokemonCard() {
             <PokemonImage pokemon={pokemon} />
             <Card.Body>
               <Card.Text>Types: {joinPokemonTypes(pokemon.types)}</Card.Text>
-              <CapturedPokemon captured={captured} name={pokemon.name} />
+              <CapturedPokemon captured={captured} capturedDate={storedValue[pokemon.name]?.addedOn} />
               <Stack gap={2}>
                 <ListGroup>
                   <StyledListGroupItem>

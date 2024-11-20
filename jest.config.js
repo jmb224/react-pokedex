@@ -1,8 +1,13 @@
 module.exports = {
+  preset: 'ts-jest',
   testEnvironment: 'jsdom',
-  transformIgnorePatterns: ['<rootDir>/node_modules/(?!axios)/', '<rootDir>/node_modules/(?!styled)/'],
+  moduleFileExtensions: ['js', 'jsx', 'ts', 'tsx'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest'
   },
-  testMatch: ['**/*.test.{ts,tsx}']
+  moduleNameMapper: {
+    '\\.(css|less|scss|sass)$': 'identity-obj-proxy'
+  },
+  testMatch: ['**/*.test.{ts,tsx}'],
+  transformIgnorePatterns: ['<rootDir>/node_modules/']
 };

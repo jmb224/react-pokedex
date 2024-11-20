@@ -26,7 +26,9 @@ export function Navigation() {
           <Nav.Link href="mypokedex" onClick={handleOnLinkClick}>
             My Pokedex
           </Nav.Link>
-          <Nav.Link href="analytics">Analytics</Nav.Link>
+          <Nav.Link href="analytics" onClick={handleOnLinkClick}>
+            Analytics
+          </Nav.Link>
         </Nav>
       </Navbar.Collapse>
     </Navbar>

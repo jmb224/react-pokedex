@@ -77,7 +77,7 @@ export function Pokedex() {
   const selectedCount = data.filter((row) => row.isSelected).length;
 
   function handleExport() {
-    const headers = ['name, height', 'types', 'date'];
+    const headers = ['name', 'height', 'types', 'date'];
     const rows = data.map((row) => `${row.name},${row.date}`);
     const csvContent = [headers.join('\n'), rows.join('\n')].join('\n');
 

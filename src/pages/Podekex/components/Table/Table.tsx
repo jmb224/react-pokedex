@@ -1,6 +1,7 @@
 import { Form, Table as TableLib } from 'react-bootstrap';
 import { RowData } from '../../Pokedex';
-import { Arrow, SortConfig } from '../../types';
+import { Arrow, SortConfig, SortDirection } from '../../types';
+import styled from 'styled-components';
 
 type TableProps = {
   isAllSelected: boolean;
@@ -11,6 +12,10 @@ type TableProps = {
   handleSort: (key: keyof RowData) => void;
 };
 
+const StyledTableHeader = styled.th`
+  cursor: pointer;
+`;
+
 export function Table({
   data,
   sortConfig,
@@ -19,6 +24,8 @@ export function Table({
   handleCheckboxChange,
   handleSelectAllChange
 }: TableProps) {
+  const getArrowType = () => (sortConfig?.direction === SortDirection.Asc ? Arrow.Up : Arrow.Down);
+
   return (
     <TableLib striped bordered hover>
       <thead>
@@ -26,22 +33,22 @@ export function Table({
           <th>
             <Form.Check type="checkbox" checked={isAllSelected} onChange={handleSelectAllChange} />
           </th>
-          <th onClick={() => handleSort('name')} style={{ cursor: 'pointer' }}>
+          <StyledTableHeader onClick={() => handleSort('name')}>
             Name
-            {sortConfig?.key === 'name' && (sortConfig.direction === 'asc' ? Arrow.Up : Arrow.Down)}
-          </th>
-          <th onClick={() => handleSort('height')} style={{ cursor: 'pointer' }}>
+            {sortConfig?.key === 'name' && getArrowType()}
+          </StyledTableHeader>
+          <StyledTableHeader onClick={() => handleSort('height')}>
             Height
-            {sortConfig?.key === 'height' && (sortConfig.direction === 'asc' ? Arrow.Up : Arrow.Down)}
-          </th>
-          <th onClick={() => handleSort('types')} style={{ cursor: 'pointer' }}>
+            {sortConfig?.key === 'height' && getArrowType()}
+          </StyledTableHeader>
+          <StyledTableHeader onClick={() => handleSort('types')}>
             Types
-            {sortConfig?.key === 'types' && (sortConfig.direction === 'asc' ? Arrow.Up : Arrow.Down)}
-          </th>
-          <th onClick={() => handleSort('date')} style={{ cursor: 'pointer' }}>
+            {sortConfig?.key === 'types' && getArrowType()}
+          </StyledTableHeader>
+          <StyledTableHeader onClick={() => handleSort('date')}>
             Date
-            {sortConfig?.key === 'date' && (sortConfig.direction === 'asc' ? Arrow.Up : Arrow.Down)}
-          </th>
+            {sortConfig?.key === 'date' && getArrowType()}
+          </StyledTableHeader>
         </tr>
       </thead>
       <tbody>

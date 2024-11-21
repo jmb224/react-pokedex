@@ -15,9 +15,9 @@ describe('useLocalStorage', () => {
   test('should initialize with initial value when no localStorage item exists', () => {
     const { result } = renderHook(() => useLocalStorage<typeof initialValue>(key, initialValue));
 
-    const [storedValue] = result.current;
+    const { storedValueLS } = result.current;
 
-    expect(storedValue).toEqual(initialValue);
+    expect(storedValueLS).toEqual(initialValue);
   });
 
   test('should initialize with value from localStorage if it exists', () => {
@@ -29,23 +29,23 @@ describe('useLocalStorage', () => {
 
     const { result } = renderHook(() => useLocalStorage<typeof initialValue>(key, initialValue));
 
-    const [storedValue] = result.current;
+    const { storedValueLS } = result.current;
 
-    expect(storedValue).toEqual(existingValue);
+    expect(storedValueLS).toEqual(existingValue);
   });
 
   test('should add or update an entry in the object', async () => {
     const { result } = renderHook(() => useLocalStorage<typeof initialValue>(key, initialValue));
 
-    const [, addOrUpdateEntry] = result.current;
+    const { addOrUpdateEntry } = result.current;
 
     act(() => {
       addOrUpdateEntry('name2', { addedOn: '99999999', height: '30', types: 'another, and another' });
     });
 
-    const [storedValue] = result.current;
+    const { storedValueLS } = result.current;
 
-    expect(storedValue).toEqual({
+    expect(storedValueLS).toEqual({
       ...initialValue,
       name2: { addedOn: '99999999', height: '30', types: 'another, and another' }
     });
@@ -60,15 +60,15 @@ describe('useLocalStorage', () => {
 
   test('should remove an entry from the object', () => {
     const { result } = renderHook(() => useLocalStorage<typeof initialValue>(key, initialValue));
-    const [, , removeEntry] = result.current;
+    const { removeEntry } = result.current;
 
     act(() => {
       removeEntry('name1');
     });
 
-    const [storedValue] = result.current;
+    const { storedValueLS } = result.current;
 
-    expect(storedValue).toEqual({});
+    expect(storedValueLS).toEqual({});
     expect(localStorage.getItem(key)).toBe(JSON.stringify({}));
   });
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 
 export function useLocalStorage<T extends Record<string, object>>(key: string, initialValue: T) {
-  const [storedValue, setStoredValue] = React.useState<T>(() => {
+  const [storedValueLS, setStoredValueLS] = React.useState<T>(() => {
     try {
       const item = localStorage.getItem(key);
 
@@ -16,9 +16,9 @@ export function useLocalStorage<T extends Record<string, object>>(key: string, i
   // Add or update an entry in the data object
   function addOrUpdateEntry(entryKey: string, entryValue: T[string]) {
     try {
-      const updatedValue = { ...storedValue, [entryKey]: entryValue };
+      const updatedValue = { ...storedValueLS, [entryKey]: entryValue };
 
-      setStoredValue(updatedValue);
+      setStoredValueLS(updatedValue);
 
       localStorage.setItem(key, JSON.stringify(updatedValue));
     } catch (error) {
@@ -29,9 +29,9 @@ export function useLocalStorage<T extends Record<string, object>>(key: string, i
   // Remove an entry from the data object by key
   function removeEntry(entryKey: string) {
     try {
-      const { [entryKey]: _, ...remaining } = storedValue;
+      const { [entryKey]: _, ...remaining } = storedValueLS;
 
-      setStoredValue(remaining as T);
+      setStoredValueLS(remaining as T);
 
       localStorage.setItem(key, JSON.stringify(remaining));
     } catch (error) {
@@ -39,5 +39,5 @@ export function useLocalStorage<T extends Record<string, object>>(key: string, i
     }
   }
 
-  return [storedValue, addOrUpdateEntry, removeEntry] as const;
+  return { storedValueLS, addOrUpdateEntry, removeEntry } as const;
 }

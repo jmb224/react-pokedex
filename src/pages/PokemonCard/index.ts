@@ -1,1 +1,2 @@
-export { PokemonCard } from './PokemonCard';
+export * from './components';
+export * from './PokemonCard';

@@ -2,12 +2,12 @@ import axios from 'axios';
 import debounce from 'debounce';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { apiURL, fetchAllPokemon, fetchAllPokemonFromDB, fetchPokemonByName } from './api';
+import { fetchAllPokemon, fetchAllPokemonFromDB, fetchPokemonByName } from './api';
 import { Navigation } from './components';
 import { GlobalContext } from './context';
+import { ActionType, reducerFn } from './hooks';
 import { ApplicationRoutes } from './routes';
 import { GlobalState, Pokemon } from './types';
-import { ActionType, reducerFn } from './hooks';
 
 const initialState: GlobalState = Object.create({});
 
@@ -49,7 +49,7 @@ export function App() {
     (search: string) => {
       dispatch({ type: ActionType.Loading });
 
-      const results = state.pokemonDb?.filter((pokemon) => pokemon.name.includes(search.toLowerCase()));
+      const results = state.pokemonDb?.filter(({ name }) => name.includes(search.toLowerCase()));
 
       dispatch({ type: ActionType.Search, payload: results });
     },

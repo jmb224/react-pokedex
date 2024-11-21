@@ -16,7 +16,10 @@ export function PokemonCard() {
   const { pokemonName } = useParams<{ pokemonName: string }>();
   const [captured, setCaptured] = React.useState(false);
   const { isLoadingData, pokemon, getPokemonByName } = useGlobalContext();
-  const [storedValue, addOrUpdateEntry, removeEntry] = useLocalStorage<SavedPokemon>('mypokemon', {});
+  const { storedValueLS, addOrUpdateEntry, removeEntry } = useLocalStorage<SavedPokemon>(
+    'mypokemon',
+    {}
+  );
 
   function handleOnButtonClick() {
     const { id, name, height, types } = pokemon;
@@ -34,7 +37,7 @@ export function PokemonCard() {
   React.useEffect(() => {
     if (!pokemonName) return;
 
-    setCaptured(Boolean(storedValue[pokemonName]));
+    setCaptured(Boolean(storedValueLS[pokemonName]));
     getPokemonByName(pokemonName);
   }, []);
 
@@ -51,7 +54,7 @@ export function PokemonCard() {
             <PokemonImage pokemon={pokemon} />
             <Card.Body>
               <Card.Text>Types: {joinPokemonTypes(pokemon.types)}</Card.Text>
-              <CapturedPokemon captured={captured} capturedDate={storedValue[pokemon.name]?.addedOn} />
+              <CapturedPokemon captured={captured} capturedDate={storedValueLS[pokemon.name]?.addedOn} />
               <Stack gap={2}>
                 <ListGroup>
                   <StyledListGroupItem>

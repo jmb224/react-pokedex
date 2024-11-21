@@ -62,7 +62,6 @@ export function Pokedex() {
       })
     );
 
-    setData((prevData) => prevData.filter((row) => !row.isSelected));
     setIsAllSelected(false);
   }
 

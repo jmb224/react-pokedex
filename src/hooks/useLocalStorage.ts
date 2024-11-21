@@ -31,7 +31,7 @@ export function useLocalStorage<T extends Record<string, object>>(key: string, i
     try {
       const { [entryKey]: _, ...remaining } = storedValueLS;
 
-      setStoredValueLS(remaining as T);
+      delete storedValueLS[entryKey];
 
       localStorage.setItem(key, JSON.stringify(remaining));
     } catch (error) {
@@ -39,5 +39,5 @@ export function useLocalStorage<T extends Record<string, object>>(key: string, i
     }
   }
 
-  return { storedValueLS, addOrUpdateEntry, removeEntry } as const;
+  return { storedValueLS, addOrUpdateEntry, removeEntry };
 }

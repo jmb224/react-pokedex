@@ -4,16 +4,14 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Stack from 'react-bootstrap/Stack';
-import { useParams } from 'react-router-dom';
 import { CapturedPokemon } from '../../components';
-import { useLocalStorage, useGlobalContext } from '../../hooks';
+import { useGlobalContext, useLocalStorage } from '../../hooks';
+import { joinPokemonTypes } from '../../pages/Podekex/utils';
 import { SavedPokemon } from '../../types';
-import { joinPokemonTypes } from '../Podekex/utils';
 import { PokemonImage, PokemonStats } from './components';
-import { StyledCardHeader, StyledListGroupItem } from './PokemonCard.styled';
+import { StyledListGroupItem } from './PokemonCard.styled';
 
-export function PokemonCard() {
-  const { pokemonName } = useParams<{ pokemonName: string }>();
+export function PokemonCard({ pokemonName }: { pokemonName?: string }) {
   const [captured, setCaptured] = React.useState(false);
   const { isLoadingData, pokemon, getPokemonByName } = useGlobalContext();
   const { storedValueLS, addOrUpdateEntry, removeEntry } = useLocalStorage<SavedPokemon>(
@@ -45,12 +43,7 @@ export function PokemonCard() {
     <>
       {!isLoadingData && pokemon && (
         <div>
-          <Card className="mt-2" style={{ width: '20rem', margin: 'auto' }}>
-            <StyledCardHeader>
-              <Card.Title>
-                {pokemon.id} - {pokemon.name}
-              </Card.Title>
-            </StyledCardHeader>
+          <Card className="mt-2">
             <PokemonImage pokemon={pokemon} />
             <Card.Body>
               <Card.Text>Types: {joinPokemonTypes(pokemon.types)}</Card.Text>

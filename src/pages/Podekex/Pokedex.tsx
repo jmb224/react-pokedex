@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React from 'react';
 import { Container } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { useLocalStorage } from '../../hooks';
+import { ViewDetailsModal } from '../../components';
+import { useLocalStorage, useModal } from '../../hooks';
 import { Pokemon, SavedPokemon } from '../../types';
 import { Table, Toolbar } from './components';
 import { SortConfig, SortDirection } from './types';
@@ -14,11 +14,11 @@ export type RowData = Pick<Pokemon, 'id' | 'name' | 'height'> & {
 };
 
 export function Pokedex() {
-  const navigate = useNavigate();
+  const { name, showCard, setName, toggleModal } = useModal();
   const { storedValueLS, removeEntry } = useLocalStorage<SavedPokemon>('mypokemon', {});
-  const [data, setData] = useState<RowData[]>(transformDataFromLS(storedValueLS));
-  const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
-  const [sortConfig, setSortConfig] = useState<SortConfig | null>(null);
+  const [data, setData] = React.useState<RowData[]>(transformDataFromLS(storedValueLS));
+  const [isAllSelected, setIsAllSelected] = React.useState<boolean>(false);
+  const [sortConfig, setSortConfig] = React.useState<SortConfig | null>(null);
 
   function handleCheckboxChange(id: number) {
     setData((prevData) =>
@@ -70,7 +70,8 @@ export function Pokedex() {
 
     if (!selectedRow) return;
 
-    navigate(selectedRow.name);
+    toggleModal();
+    setName(selectedRow.name);
   }
 
   const selectedCount = data.filter((row) => row.isSelected).length;
@@ -106,7 +107,8 @@ export function Pokedex() {
         handleCheckboxChange={handleCheckboxChange}
         handleSelectAllChange={handleSelectAllChange}
         handleSort={handleSort}
-      ></Table>
+      />
+      <ViewDetailsModal show={showCard} setShow={toggleModal} pokemonName={name} />
     </Container>
   );
 }

@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { AppRoutes } from '../constants';
-import { Analytics, Home, Pokedex, PokemonCard } from '../pages';
+import { Analytics, Home, Pokedex } from '../pages';
 
 export function ApplicationRoutes() {
   return (
@@ -8,8 +8,6 @@ export function ApplicationRoutes() {
       <Route path={AppRoutes.HomePage} element={<Home />} />
       <Route path={AppRoutes.Pokedex} element={<Pokedex />} />
       <Route path={AppRoutes.Analytics} element={<Analytics />} />
-      <Route path={AppRoutes.PokemonDetails} element={<PokemonCard />} />
-      <Route path={AppRoutes.PokeDexDetails} element={<PokemonCard />} />
     </Routes>
   );
 }

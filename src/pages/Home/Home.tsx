@@ -4,21 +4,20 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import { useNavigate } from 'react-router-dom';
-import { CapturedPokemon, SearchBar } from '../../components';
-import { useGlobalContext, useLocalStorage } from '../../hooks';
+import { CapturedPokemon, PokemonImage, SearchBar, ViewDetailsModal } from '../../components';
+import { useGlobalContext, useLocalStorage, useModal } from '../../hooks';
 import { SavedPokemon } from '../../types';
-import { PokemonImage } from '../PokemonCard';
 
 export function Home() {
-  const navigate = useNavigate();
   const { allPokemonsData } = useGlobalContext();
+  const { name, showCard, setName, toggleModal } = useModal();
   const { storedValueLS } = useLocalStorage<SavedPokemon>('mypokemon', {});
 
   function handleOnCardClick(event: React.MouseEvent, pokemonName: string) {
     event.preventDefault();
 
-    navigate(`pokemon/${pokemonName}`);
+    toggleModal();
+    setName(pokemonName);
   }
 
   return (
@@ -43,6 +42,7 @@ export function Home() {
             </Card>
           </Col>
         ))}
+        <ViewDetailsModal show={showCard} setShow={toggleModal} pokemonName={name} />
       </Row>
     </Container>
   );

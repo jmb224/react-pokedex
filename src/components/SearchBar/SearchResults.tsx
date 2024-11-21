@@ -1,6 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Pokemon } from '../../types';
+import { useModal } from '../../hooks';
+import { ViewDetailsModal } from '../Modal';
 
 type SearchResultsProps = {
   searchResults: Pick<Pokemon, 'id' | 'name'>[];
@@ -35,18 +37,19 @@ const StyledSearchResults = styled.div`
   box-shadow: 0.2rem 0.25rem 0.9rem rgba(0, 0, 0, 0.2);
 `;
 
-export function SearchResults({ searchResults: searchResult }: SearchResultsProps) {
-  const navigate = useNavigate();
+export function SearchResults({ searchResults }: SearchResultsProps) {
+  const { name, showCard, setName, toggleModal } = useModal();
 
   function handleSearchClick(pokemonName: string) {
-    navigate(`pokemon/${pokemonName}`);
+    setName(pokemonName);
+    toggleModal();
   }
 
   return (
     <>
-      {searchResult.length > 0 && (
+      {searchResults.length > 0 && (
         <StyledSearchResults>
-          {searchResult.map((pokemon) => {
+          {searchResults.map((pokemon) => {
             return (
               <StyledPokemonName key={pokemon.name} onClick={() => handleSearchClick(pokemon.name)}>
                 {pokemon.name}
@@ -55,6 +58,7 @@ export function SearchResults({ searchResults: searchResult }: SearchResultsProp
           })}
         </StyledSearchResults>
       )}
+      <ViewDetailsModal show={showCard} setShow={toggleModal} pokemonName={name} />
     </>
   );
 }

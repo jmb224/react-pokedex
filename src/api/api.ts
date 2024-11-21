@@ -17,5 +17,5 @@ export async function fetchPokemonByName(name: string) {
 export async function fetchAllPokemonFromDB() {
   const { data } = await axios.get(`${apiURL}?limit=100000&offset=0`);
 
-  return data;
+  return data.results;
 }

@@ -70,8 +70,8 @@ export function Pokedex() {
 
     if (!selectedRow) return;
 
-    toggleModal();
     setName(selectedRow.name);
+    toggleModal();
   }
 
   const selectedCount = data.filter((row) => row.isSelected).length;

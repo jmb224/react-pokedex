@@ -16,8 +16,8 @@ export function Home() {
   function handleOnCardClick(event: React.MouseEvent, pokemonName: string) {
     event.preventDefault();
 
-    toggleModal();
     setName(pokemonName);
+    toggleModal();
   }
 
   return (

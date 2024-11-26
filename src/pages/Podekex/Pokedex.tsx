@@ -1,3 +1,4 @@
+import { download, generateCsv, mkConfig } from 'export-to-csv';
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { ViewDetailsModal } from '../../components';
@@ -6,6 +7,8 @@ import { Pokemon, SavedPokemon } from '../../types';
 import { Table, Toolbar } from './components';
 import { SortConfig, SortDirection } from './types';
 import { transformDataFromLS } from './utils';
+
+const csvConfig = mkConfig({ columnHeaders: ['id', 'name', 'height', 'types', 'date'] });
 
 export type RowData = Pick<Pokemon, 'id' | 'name' | 'height'> & {
   types: string;
@@ -77,18 +80,9 @@ export function Pokedex() {
   const selectedCount = data.filter((row) => row.isSelected).length;
 
   function handleExport() {
-    const headers = ['name, height, types, date'];
-    const rows = data.map((row) => `${row.name},${row.date}`);
-    const csvContent = [headers.join('\n'), rows.join('\n')].join('\n');
+    const csv = generateCsv(csvConfig)(data);
 
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-
-    link.href = url;
-    link.download = 'exported_pokemon_data.csv';
-    link.click();
-    URL.revokeObjectURL(url);
+    download(csvConfig)(csv);
   }
 
   return (

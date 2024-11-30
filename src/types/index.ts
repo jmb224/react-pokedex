@@ -38,9 +38,9 @@ export type GlobalState = {
   allPokemonsData: Pokemon[];
   pokemon: Pokemon;
   nextPage: string;
-  searchResult: [Pick<Pokemon, 'id' | 'name'>];
+  searchResult: Array<Pick<Pokemon, 'id' | 'name'>>;
   isLoadingData: boolean;
-  pokemonDb: [{ name: string; url: string }];
+  pokemonDb: Array<{ name: string; url: string }>;
   getPokemonByName: (name: string) => void;
   realTimeSearch: DebouncedFunction<(search: string) => void>;
 };

@@ -1,11 +1,9 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { Pokemon } from '../../types';
 import { useModal } from '../../hooks';
 import { ViewDetailsModal } from '../Modal';
 
 type SearchResultsProps = {
-  searchResults: Pick<Pokemon, 'id' | 'name'>[];
+  searchResults: Array<{ name: string; url: string }>;
 };
 
 const StyledPokemonName = styled.span`

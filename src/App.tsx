@@ -45,27 +45,17 @@ export function App() {
     dispatch({ type: ActionType.GetAllPokemonFromDb, payload: allPokemonFromDB });
   }
 
-  const realTimeSearch = debounce(
-    (search: string) => {
-      dispatch({ type: ActionType.Loading });
-
-      const results = state.pokemonDb?.filter(({ name }) => name.includes(search.toLowerCase()));
-
-      dispatch({ type: ActionType.Search, payload: results });
-    },
-    400,
-    { immediate: true }
-  );
-
-  const contextData = React.useMemo(
-    () => ({ ...state, allPokemonsData: allPokemonData, getPokemonByName, realTimeSearch }),
-    [allPokemonData, realTimeSearch, state]
-  );
+  const contextData = React.useMemo(() => {
+    console.log('HERE');
+    return { ...state, allPokemonsData: allPokemonData, getPokemonByName };
+  }, [allPokemonData, state]);
 
   React.useEffect(() => {
     getAllPokemon();
     getAllPokemonFromDB();
   }, []);
+
+  console.log('Render');
 
   return (
     <BrowserRouter>

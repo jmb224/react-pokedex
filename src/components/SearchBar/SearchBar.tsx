@@ -1,32 +1,42 @@
 import React from 'react';
-import { Form, FormControl, FormGroup, FormLabel } from 'react-bootstrap';
-import { SearchResults } from './SearchResults';
+import Form from 'react-bootstrap/Form';
 import { useGlobalContext } from '../../hooks';
+import { SearchResults } from './SearchResults';
+import debounce from 'debounce';
 
 export function SearchBar() {
+  const { pokemonDb } = useGlobalContext();
   const [searchInput, setSearchInput] = React.useState('');
-  const { realTimeSearch, searchResult } = useGlobalContext();
+  const [searchResults, setSearchResults] = React.useState<typeof pokemonDb>([]);
 
-  function handleOnChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const performSearch = debounce((search: string) => {
+    const results = pokemonDb.filter(({ name }) => name.includes(search.toLowerCase()));
+
+    console.log('Searching...');
+
+    setSearchResults(results);
+  }, 400);
+
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(event.target.value);
 
-    realTimeSearch(searchInput);
-  }
+    performSearch(searchInput);
+  };
 
   return (
     <div>
       <Form>
-        <FormGroup className="mb-3" controlId="formBasicEmail">
-          <FormLabel>Find your favorite pokemon</FormLabel>
-          <FormControl
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Find your favorite pokemon</Form.Label>
+          <Form.Control
             type="text"
             value={searchInput}
             placeholder="Enter pokemon name"
             onChange={handleOnChange}
           />
-        </FormGroup>
+        </Form.Group>
       </Form>
-      {searchInput && <SearchResults searchResults={searchResult} />}
+      {searchInput && <SearchResults searchResults={searchResults} />}
     </div>
   );
 }

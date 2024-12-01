@@ -18,7 +18,7 @@ export type RowData = Pick<Pokemon, 'id' | 'name' | 'height'> & {
 
 export function Pokedex() {
   const { name, showCard, setName, toggleModal } = useModal();
-  const { storedValueLS, removeEntry } = useLocalStorage<SavedPokemon>('mypokemon', {});
+  const { storedValueLS, removeEntry } = useLocalStorage<SavedPokemon>({});
   const [data, setData] = React.useState<RowData[]>(transformDataFromLS(storedValueLS));
   const [isAllSelected, setIsAllSelected] = React.useState<boolean>(false);
   const [sortConfig, setSortConfig] = React.useState<SortConfig | null>(null);

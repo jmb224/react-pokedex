@@ -5,13 +5,11 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { CapturedPokemon, PokemonImage, SearchBar, ViewDetailsModal } from '../../components';
-import { useGlobalContext, useLocalStorage, useModal } from '../../hooks';
-import { SavedPokemon } from '../../types';
+import { useGlobalContext, useModal } from '../../hooks';
 
 export function Home() {
-  const { allPokemonsData } = useGlobalContext();
+  const { allPokemonsData, storedValueLS } = useGlobalContext();
   const { name, showCard, setName, toggleModal } = useModal();
-  const { storedValueLS } = useLocalStorage<SavedPokemon>('mypokemon', {});
 
   function handleOnCardClick(event: React.MouseEvent, pokemonName: string) {
     event.preventDefault();

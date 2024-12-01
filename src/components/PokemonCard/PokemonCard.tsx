@@ -5,19 +5,15 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Stack from 'react-bootstrap/Stack';
 import { CapturedPokemon } from '../../components';
-import { useGlobalContext, useLocalStorage } from '../../hooks';
+import { useGetPokemonByName, useGlobalContext } from '../../hooks';
 import { joinPokemonTypes } from '../../pages/Podekex/utils';
-import { SavedPokemon } from '../../types';
 import { PokemonImage, PokemonStats } from './components';
 import { StyledListGroupItem } from './PokemonCard.styled';
 
-export function PokemonCard({ pokemonName }: { pokemonName?: string }) {
-  const [captured, setCaptured] = React.useState(false);
-  const { isLoadingData, pokemon, getPokemonByName } = useGlobalContext();
-  const { storedValueLS, addOrUpdateEntry, removeEntry } = useLocalStorage<SavedPokemon>(
-    'mypokemon',
-    {}
-  );
+export function PokemonCard({ pokemonName }: { pokemonName: string }) {
+  const { data: pokemon, isLoading } = useGetPokemonByName(pokemonName);
+  const { storedValueLS, addOrUpdateEntry, removeEntry } = useGlobalContext();
+  const [captured, setCaptured] = React.useState(Boolean(storedValueLS[pokemonName]));
 
   function handleOnButtonClick() {
     const { id, name, height, types } = pokemon;
@@ -28,20 +24,13 @@ export function PokemonCard({ pokemonName }: { pokemonName?: string }) {
   }
 
   function handleOnDeleteClick() {
-    removeEntry(pokemon.name);
+    removeEntry(pokemonName);
     setCaptured(false);
   }
 
-  React.useEffect(() => {
-    if (!pokemonName) return;
-
-    setCaptured(Boolean(storedValueLS[pokemonName]));
-    getPokemonByName(pokemonName);
-  }, []);
-
   return (
     <>
-      {!isLoadingData && pokemon && (
+      {!isLoading && pokemon && (
         <div>
           <Card className="mt-2">
             <PokemonImage pokemon={pokemon} />

@@ -13,7 +13,7 @@ describe('useLocalStorage', () => {
   });
 
   test('should initialize with initial value when no localStorage item exists', () => {
-    const { result } = renderHook(() => useLocalStorage<typeof initialValue>(key, initialValue));
+    const { result } = renderHook(() => useLocalStorage<typeof initialValue>(initialValue));
 
     const { storedValueLS } = result.current;
 
@@ -27,7 +27,7 @@ describe('useLocalStorage', () => {
 
     localStorage.setItem(key, JSON.stringify(existingValue));
 
-    const { result } = renderHook(() => useLocalStorage<typeof initialValue>(key, initialValue));
+    const { result } = renderHook(() => useLocalStorage<typeof initialValue>(initialValue));
 
     const { storedValueLS } = result.current;
 
@@ -35,7 +35,7 @@ describe('useLocalStorage', () => {
   });
 
   test('should add or update an entry in the object', async () => {
-    const { result } = renderHook(() => useLocalStorage<typeof initialValue>(key, initialValue));
+    const { result } = renderHook(() => useLocalStorage<typeof initialValue>(initialValue));
 
     const { addOrUpdateEntry } = result.current;
 
@@ -59,7 +59,7 @@ describe('useLocalStorage', () => {
   });
 
   test('should remove an entry from the object', () => {
-    const { result } = renderHook(() => useLocalStorage<typeof initialValue>(key, initialValue));
+    const { result } = renderHook(() => useLocalStorage<typeof initialValue>(initialValue));
     const { removeEntry } = result.current;
 
     act(() => {

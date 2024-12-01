@@ -12,8 +12,6 @@ export function SearchBar() {
   const performSearch = debounce((search: string) => {
     const results = pokemonDb.filter(({ name }) => name.includes(search.toLowerCase()));
 
-    console.log('Searching...');
-
     setSearchResults(results);
   }, 400);
 

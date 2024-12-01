@@ -1,6 +1,8 @@
 import React from 'react';
 
-export function useLocalStorage<T extends Record<string, object>>(key: string, initialValue: T) {
+const key = 'mypokemon';
+
+export function useLocalStorage<T extends Record<string, object>>(initialValue: T) {
   const [storedValueLS, setStoredValueLS] = React.useState<T>(() => {
     try {
       const item = localStorage.getItem(key);
@@ -29,11 +31,15 @@ export function useLocalStorage<T extends Record<string, object>>(key: string, i
   // Remove an entry from the data object by key
   function removeEntry(entryKey: string) {
     try {
-      const { [entryKey]: _, ...remaining } = storedValueLS;
+      setStoredValueLS((prev) => {
+        const { [entryKey]: _, ...remaining } = prev;
 
-      delete storedValueLS[entryKey];
+        delete prev[entryKey];
 
-      localStorage.setItem(key, JSON.stringify(remaining));
+        localStorage.setItem(key, JSON.stringify(remaining));
+
+        return remaining as T;
+      });
     } catch (error) {
       console.error('Error removing entry from localStorage', error);
     }

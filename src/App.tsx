@@ -1,19 +1,21 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import axios from 'axios';
-import debounce from 'debounce';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { fetchAllPokemon, fetchAllPokemonFromDB, fetchPokemonByName } from './api';
+import { fetchAllPokemon, fetchAllPokemonFromDB } from './api';
 import { Navigation } from './components';
 import { GlobalContext } from './context';
-import { ActionType, reducerFn } from './hooks';
+import { ActionType, reducerFn, useLocalStorage } from './hooks';
 import { ApplicationRoutes } from './routes';
-import { GlobalState, Pokemon } from './types';
+import { GlobalState, Pokemon, SavedPokemon } from './types';
 
 const initialState: GlobalState = Object.create({});
+const queryClient = new QueryClient();
 
 export function App() {
   const [state, dispatch] = React.useReducer(reducerFn, initialState);
   const [allPokemonData, setAllPokemonData] = React.useState<Pokemon[]>([]);
+  const { storedValueLS, addOrUpdateEntry, removeEntry } = useLocalStorage<SavedPokemon>({});
 
   async function getAllPokemon() {
     dispatch({ type: ActionType.Loading });
@@ -29,14 +31,6 @@ export function App() {
     setAllPokemonData(detailedPokemonData);
   }
 
-  async function getPokemonByName(name: string) {
-    dispatch({ type: ActionType.Loading });
-
-    const pokemon = await fetchPokemonByName(name);
-
-    dispatch({ type: ActionType.GetPokemon, payload: pokemon });
-  }
-
   async function getAllPokemonFromDB() {
     dispatch({ type: ActionType.Loading });
 
@@ -46,9 +40,9 @@ export function App() {
   }
 
   const contextData = React.useMemo(() => {
-    console.log('HERE');
-    return { ...state, allPokemonsData: allPokemonData, getPokemonByName };
-  }, [allPokemonData, state]);
+    console.log('HERE', { storedValueLS });
+    return { ...state, addOrUpdateEntry, removeEntry, allPokemonsData: allPokemonData, storedValueLS };
+  }, [addOrUpdateEntry, allPokemonData, removeEntry, state, storedValueLS]);
 
   React.useEffect(() => {
     getAllPokemon();
@@ -59,10 +53,12 @@ export function App() {
 
   return (
     <BrowserRouter>
-      <GlobalContext.Provider value={contextData}>
-        <Navigation />
-        <ApplicationRoutes />
-      </GlobalContext.Provider>
+      <QueryClientProvider client={queryClient}>
+        <GlobalContext.Provider value={contextData}>
+          <Navigation />
+          <ApplicationRoutes />
+        </GlobalContext.Provider>
+      </QueryClientProvider>
     </BrowserRouter>
   );
 }

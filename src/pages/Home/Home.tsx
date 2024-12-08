@@ -5,20 +5,24 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import { fetchAllPokemon } from '../../api';
+import { apiURL } from '../../api';
 import { CapturedPokemon, PokemonImage, SearchBar, ViewDetailsModal } from '../../components';
 import { useGlobalContext, useModal } from '../../hooks';
 import { Pokemon } from '../../types';
 
+const limit = 20;
+
 export function Home() {
   const { storedValueLS } = useGlobalContext();
+  const [offset, _] = React.useState(0);
   const { name, showCard, setName, toggleModal } = useModal();
   const [allPokemonsData, setAllPokemonsData] = React.useState<Pokemon[]>([]);
 
   async function getAllPokemon() {
-    const allPokemon: [{ id: string; url: string }] = await fetchAllPokemon();
     const detailedPokemonData = await Promise.all(
-      allPokemon.map(({ url }) => axios.get(url).then((res) => res.data))
+      Array(limit)
+        .fill(0, offset, limit)
+        .map((_, id) => axios.get(`${apiURL}/${id + 1}`).then((res) => res.data))
     );
 
     setAllPokemonsData(detailedPokemonData);

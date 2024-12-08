@@ -18,7 +18,7 @@ export const StyledPokemonName = styled.span`
   }
 `;
 
-export const StyledSearchResults = styled.div`
+export const StyledSearchResults = styled.div<{ hide?: boolean }>`
   position: relative;
   max-height: 15rem;
   overflow: auto;

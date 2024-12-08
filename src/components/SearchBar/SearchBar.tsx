@@ -4,7 +4,11 @@ import { SearchResults } from './SearchResults';
 import debounce from 'debounce';
 import { Pokemon } from '../../types';
 
-export function SearchBar({ pokemonDb }: { pokemonDb: Pokemon[] }) {
+type SearchBarProps = {
+  pokemonDb: Pokemon[];
+};
+
+export function SearchBar({ pokemonDb }: SearchBarProps) {
   const [searchInput, setSearchInput] = React.useState('');
   const [searchResults, setSearchResults] = React.useState<typeof pokemonDb>([]);
 
@@ -14,11 +18,10 @@ export function SearchBar({ pokemonDb }: { pokemonDb: Pokemon[] }) {
     setSearchResults(results);
   }, 400);
 
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(event.target.value);
-
-    performSearch(searchInput);
-  };
+  function handleOnChange({ target }: React.ChangeEvent<HTMLInputElement>) {
+    setSearchInput(target.value);
+    performSearch(target.value);
+  }
 
   return (
     <div>
@@ -33,7 +36,7 @@ export function SearchBar({ pokemonDb }: { pokemonDb: Pokemon[] }) {
           />
         </Form.Group>
       </Form>
-      {searchInput && <SearchResults searchResults={searchResults} />}
+      {searchInput && <SearchResults searchInput={searchInput} searchResults={searchResults} />}
     </div>
   );
 }

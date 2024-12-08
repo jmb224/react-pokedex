@@ -1,3 +1,4 @@
+export * from './useClickOutside';
 export * from './useGetAllPokemonFromDb';
 export * from './useGetPokemonByName';
 export * from './useGlobalContext';

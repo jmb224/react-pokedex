@@ -2,8 +2,8 @@ import { download, generateCsv, mkConfig } from 'export-to-csv';
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { ViewDetailsModal } from '../../components';
-import { useLocalStorage, useModal } from '../../hooks';
-import { Pokemon, SavedPokemon } from '../../types';
+import { useGlobalContext, useModal } from '../../hooks';
+import { Pokemon } from '../../types';
 import { Table, Toolbar } from './components';
 import { SortConfig, SortDirection } from './types';
 import { transformDataFromLS } from './utils';
@@ -18,7 +18,7 @@ export type RowData = Pick<Pokemon, 'id' | 'name' | 'height'> & {
 
 export function Pokedex() {
   const { name, showCard, setName, toggleModal } = useModal();
-  const { storedValueLS, removeEntry } = useLocalStorage<SavedPokemon>({});
+  const { storedValueLS, removeEntry } = useGlobalContext();
   const [data, setData] = React.useState<RowData[]>(transformDataFromLS(storedValueLS));
   const [isAllSelected, setIsAllSelected] = React.useState<boolean>(false);
   const [sortConfig, setSortConfig] = React.useState<SortConfig | null>(null);
@@ -57,14 +57,14 @@ export function Pokedex() {
   }
 
   function handleDelete() {
-    setData((prevData) =>
-      prevData.filter((row) => {
-        row.isSelected && removeEntry(row.name);
+    const notSelected = [...data].reduce<Array<RowData>>((acc, curr) => {
+      if (curr.isSelected) removeEntry(curr.name);
+      else acc.push(curr);
 
-        return !row.isSelected;
-      })
-    );
+      return acc;
+    }, []);
 
+    setData(notSelected);
     setIsAllSelected(false);
   }
 

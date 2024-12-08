@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { useModal } from '../../hooks';
 import { ViewDetailsModal } from '../Modal';
+import { Pokemon } from '../../types';
 
 type SearchResultsProps = {
-  searchResults: Array<{ name: string; url: string }>;
+  searchResults: Pokemon[];
 };
 
 const StyledPokemonName = styled.span`

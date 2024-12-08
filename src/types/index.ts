@@ -32,11 +32,6 @@ export interface SavedPokemon {
 }
 
 export type GlobalState = {
-  allPokemons: [];
-  allPokemonsData: Pokemon[];
-  pokemon: Pokemon;
-  nextPage: string;
-  pokemonDb: Array<{ name: string; url: string }>;
   storedValueLS: SavedPokemon;
   addOrUpdateEntry: (entryKey: string, entryValue: any) => void;
   removeEntry: (key: string) => void;

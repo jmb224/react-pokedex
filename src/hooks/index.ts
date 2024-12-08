@@ -1,4 +1,4 @@
-export * from './reducerFn';
+export * from './useGetAllPokemonFromDb';
 export * from './useGetPokemonByName';
 export * from './useGlobalContext';
 export * from './useLocalStorage';

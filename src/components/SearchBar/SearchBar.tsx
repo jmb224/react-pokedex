@@ -1,11 +1,10 @@
 import React from 'react';
 import Form from 'react-bootstrap/Form';
-import { useGlobalContext } from '../../hooks';
 import { SearchResults } from './SearchResults';
 import debounce from 'debounce';
+import { Pokemon } from '../../types';
 
-export function SearchBar() {
-  const { pokemonDb } = useGlobalContext();
+export function SearchBar({ pokemonDb }: { pokemonDb: Pokemon[] }) {
   const [searchInput, setSearchInput] = React.useState('');
   const [searchResults, setSearchResults] = React.useState<typeof pokemonDb>([]);
 
